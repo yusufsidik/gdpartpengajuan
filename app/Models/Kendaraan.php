@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Kendaraan extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'nopol',
         'pic',
@@ -25,6 +28,6 @@ class Kendaraan extends Model
     ];
 
     public function pengajuans(): HasMany {
-        return $this->hasMany(Pengajuan::class, 'nopol', 'nopol');
+        return $this->hasMany(Pengajuan::class, 'nopol', 'nopol')->latest('tgl_diajukan');
     }
 }

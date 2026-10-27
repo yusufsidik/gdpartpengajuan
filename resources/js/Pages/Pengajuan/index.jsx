@@ -135,7 +135,7 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
     }
 
     const deletePengajuan = async (pengajuan, e) => {
-        console.log(e)
+        e.currentTarget.blur()
         const result = await Swal.fire({
             title: `Hapus pengajuan ${pengajuan.nomor_pengajuan}?`,
             text: "Data masih bisa dikembalikan",
@@ -236,8 +236,24 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                                     <td className="flex gap-2 justify-center">
                                         {buttonStatus(pengajuan)}
                                         <div className="divider divider-horizontal"></div>
-                                        <button className="btn btn-sm btn-info" onClick={() => openModal(pengajuan)}>{<PencilSquareIcon className="size-4"/>}</button>
-                                        <button className="btn btn-sm btn-error" onClick={(e) => deletePengajuan(pengajuan, e)} >{<TrashIcon className="size-4"/>}</button>
+                                        <button 
+                                            className="btn btn-sm btn-info" 
+                                            onClick={() => openModal(pengajuan)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === ' ' || e.key === 'Enter') e.preventDefault();
+                                            }}
+                                        >
+                                            {<PencilSquareIcon className="size-4"/>}
+                                        </button>
+                                        <button 
+                                            className="btn btn-sm btn-error" 
+                                            onClick={(e) => deletePengajuan(pengajuan, e)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === ' ' || e.key === 'Enter') e.preventDefault();
+                                            }}
+                                        >
+                                            {<TrashIcon className="size-4"/>}
+                                        </button>
                                     </td>
                                 </tr>
                             )

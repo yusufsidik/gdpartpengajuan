@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Kendaraan;
+use App\Models\{Kendaraan, Pengajuan};
 use Inertia\Inertia;
 
 class KendaraanController extends Controller
@@ -13,7 +13,7 @@ class KendaraanController extends Controller
      */
     public function index()
     {
-        $kendaraans = Kendaraan::select('id','nopol','pic','tahun_pembuatan','no_rangka','no_mesin','pajak_1_tahun','pajak_5_tahun')
+        $kendaraans = Kendaraan::select('id','nopol','pic','tahun_pembuatan','no_rangka','no_mesin','pajak_1_tahun','pajak_5_tahun','tgl_beli_aki')
             ->paginate(10);
 
         return Inertia::render('Kendaraan/index', [
@@ -113,5 +113,25 @@ class KendaraanController extends Controller
         $kendaraan->delete();
         
         return redirect('/kendaraans')->with('success','Data kendaraan berhasil dihapus');
+    }
+
+    public function pengajuan(Request $request, string $id)
+    {
+        $kendaraan = Kendaraan::select('id', 'nopol', 'pic')->findOrFail($id);
+
+        $pengajuans = Pengajuan::where('nopol', $kendaraan->nopol)
+            ->select('id', 'nomor_pengajuan','nopol','pengajuan','jenis','nominal','status','tgl_diajukan', 'catatan')
+            ->when($request->jenis, fn($q, $jenis) => $q->where('jenis', $jenis))
+            ->when($request->status, fn($q, $status) => $q->where('status', $status))
+            ->when($request->search, fn($q, $search) => $q->where('pengajuan', 'like', "%{$search}%"))
+            ->latest('tgl_diajukan')
+            ->paginate(10)
+            ->withQueryString();
+
+        return Inertia::render('Kendaraan/pengajuan', [
+            'kendaraan' => $kendaraan,
+            'pengajuans' => $pengajuans,
+            'filters' => $request->only(['jenis', 'status', 'search'])
+        ]);
     }
 }
