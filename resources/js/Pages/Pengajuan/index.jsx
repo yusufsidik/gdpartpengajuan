@@ -112,6 +112,7 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                     <Link 
                         className="btn btn-sm btn-success" 
                         onClick={() => updateStatus(pengajuan, "APPROVED")}
+                        aria-label="ApprovedButton"
                         onKeyDown={(e) => e.preventDefault()}
                     >
                         {<CheckIcon className="size-4"/>}
@@ -119,6 +120,8 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                     <Link 
                         className="btn btn-sm btn-error" 
                         onClick={() => updateStatus(pengajuan, "REJECTED")}
+                        aria-label="RejectedButton"
+                        onKeyDown={(e) => e.preventDefault()}
                     >
                         {<XMarkIcon className="size-4"/>}
                     </Link>
@@ -239,6 +242,7 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                                         <button 
                                             className="btn btn-sm btn-info" 
                                             onClick={() => openModal(pengajuan)}
+                                            aria-label="CatatanButton"
                                             onKeyDown={(e) => {
                                                 if (e.key === ' ' || e.key === 'Enter') e.preventDefault();
                                             }}
@@ -248,6 +252,7 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                                         <button 
                                             className="btn btn-sm btn-error" 
                                             onClick={(e) => deletePengajuan(pengajuan, e)}
+                                            aria-label="DeleteButton"
                                             onKeyDown={(e) => {
                                                 if (e.key === ' ' || e.key === 'Enter') e.preventDefault();
                                             }}

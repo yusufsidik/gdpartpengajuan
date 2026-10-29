@@ -2,6 +2,7 @@ import { Link, router } from "@inertiajs/react"
 import { status as statusFn, jenis as jenisFn } from "../../utils/status";
 import { rupiah } from "../../utils/rupiah";
 import { useState } from "react";
+import { ArrowLeftIcon } from "@heroicons/react/16/solid";
 
 
 export default function Pengajuan({kendaraan, pengajuans, filters}){
@@ -17,21 +18,24 @@ export default function Pengajuan({kendaraan, pengajuans, filters}){
 
     return (
         <section className="py-6 px-4">
-            {/* filter */}
-            <table>
-                <thead className="text-center">
-                    <tr>
-                        <th>Kendaraan</th>
-                        <th className="w-24"> : </th>
-                        <td>{kendaraan.nopol}</td>
-                    </tr>
-                    <tr>
-                        <th>PIC</th>
-                        <th className="w-24"> : </th>
-                        <td>{kendaraan.pic}</td>
-                    </tr>
-                </thead>
-            </table>
+            <div className="flex justify-between items-center">
+                <table>
+                    <thead className="text-center">
+                        <tr>
+                            <th>Kendaraan</th>
+                            <th className="w-24"> : </th>
+                            <td>{kendaraan.nopol}</td>
+                        </tr>
+                        <tr>
+                            <th>PIC</th>
+                            <th className="w-24"> : </th>
+                            <td>{kendaraan.pic}</td>
+                        </tr>
+                    </thead>
+                </table>
+                <h3 className="font-semibold text-center">Data Pengajuan Kendaraan</h3>
+                <Link href="/kendaraans" className="btn btn-warning"><ArrowLeftIcon className="size-4" /> Back</Link>
+            </div>
             <div className="divider"></div>
             <div className="flex justify-between items-center">
                 <div className="grow-1">
@@ -95,7 +99,7 @@ export default function Pengajuan({kendaraan, pengajuans, filters}){
             </div>
             <div className="divider"></div>
             {/* data pengajuan */}
-            <table className="table mx-auto mt-12">
+            <table className="table mx-auto mt-8">
                 <thead>
                     <tr>
                         <th>Nomor Pengajuan</th>

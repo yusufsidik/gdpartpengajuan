@@ -94,12 +94,12 @@ class PengajuanController extends Controller
             ->orderBy('nomor_pengajuan', 'desc')
             ->value('nomor_pengajuan');
 
-        // jika blm ada nomor pengajuannya, + 1
+        // cek nomor pengajuan terkahir kemudian + 1
         if($lastNumber){
             $lastSeq = (int) substr($lastNumber, -4);
             $newSeq = $lastSeq + 1;
         
-        // jika sdh ada maka nomor pengajuan 1
+        // jika blm ada maka nomor pengajuan 1
         } else {
             $newSeq = 1;
         }

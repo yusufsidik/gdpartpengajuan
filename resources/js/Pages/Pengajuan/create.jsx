@@ -23,10 +23,15 @@ export default function CreatePengajuan({kendaraans}){
                             <fieldset className="fieldset w-full">
                                 <legend className="fieldset-legend">Nopol</legend>
                                 <select className="select w-full" name="nopol" id="nopol">
-                                    {/* <option>---- Bukan pengajuan kendaraan ----</option> */}
                                     {kendaraans.map((kendaraan) => {
                                         return (
-                                            <option key={kendaraan.id} value={kendaraan.nopol}>{kendaraan.nopol}</option>
+                                            <option 
+                                                key={kendaraan.id} 
+                                                value={kendaraan.nopol}
+                                                selected={kendaraan.nopol === "DEFAULT" ? true : false}
+                                            >
+                                                {kendaraan.nopol}
+                                            </option>
                                         )
                                     })}
                                 </select>

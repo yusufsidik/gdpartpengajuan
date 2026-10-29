@@ -35,8 +35,8 @@ export default function Kendaraan({kendaraans}){
                     <thead>
                         <tr>
                             <th>Nopol</th>
-                            <th>Tahun Pembuatan</th>
                             <th>PIC</th>
+                            <th>Tahun Pembuatan</th>
                             <th>No. Rangka</th>
                             <th>No. Mesin</th>
                             <th>Tgl beli aki</th>
@@ -60,7 +60,7 @@ export default function Kendaraan({kendaraans}){
                                     <td className="flex gap-4">
                                         <Link 
                                             href={`/kendaraans/${kendaraan.id}/pengajuans`} 
-                                            className="btn btn-info"
+                                            className="btn btn-accent"
                                         >
                                             {<DocumentTextIcon className="size-4"/>}
                                         </Link>
