@@ -162,27 +162,33 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                 <h2 className="text-lg font-bold">Data Pengajuan</h2>
                 <div className="flex justify-center items-start">
                     <div>
-                        <h3 className="text-xs mb-2 font-semibold">Rentang maksimal 3 bulan</h3>
-                        <form onSubmit={handleFilter} className="flex gap-2 items-center">
-                            <input 
-                                type="date" 
-                                className="input input-sm active:border-none" 
-                                id="start_date" 
-                                name="start_date"
-                                value={startDate}
-                                onChange={e => setStartDate(e.target.value)}
-                            />
-                            <span className="text-sm">-</span>
-                            <input 
-                                type="date" 
-                                className="input input-sm active:border-none" 
-                                id="end_date" 
-                                name="end_date" 
-                                value={endDate}
-                                onChange={e =>  setEndDate(e.target.value)} 
-                            />
-                            <button type="submit" className="btn btn-sm btn-primary">Filter</button>
+                        <form onSubmit={handleFilter} className="flex gap-2">
+                            <div>
+                                <label htmlFor="start_date" className="text-xs mb-2">Dari tanggal :</label>
+                                <input 
+                                    type="date" 
+                                    className="input input-sm active:border-none" 
+                                    id="start_date" 
+                                    name="start_date"
+                                    value={startDate}
+                                    onChange={e => setStartDate(e.target.value)}
+                                />
+                            </div>
+                            <span className="text-sm self-center">-</span>
+                            <div>
+                                <label htmlFor="end_date" className="text-xs mb-2">Sampai tanggal :</label>
+                                <input 
+                                    type="date" 
+                                    className="input input-sm active:border-none" 
+                                    id="end_date" 
+                                    name="end_date" 
+                                    value={endDate}
+                                    onChange={e =>  setEndDate(e.target.value)} 
+                                />
+                            </div>
+                            <button type="submit" className="btn btn-sm btn-primary self-end">Filter</button>
                         </form>
+                        <h3 className="text-xs mt-2 font-semibold">Rentang maksimal 3 bulan</h3>
                     </div>
                     <div className="divider divider-horizontal"></div>
                     <div>
