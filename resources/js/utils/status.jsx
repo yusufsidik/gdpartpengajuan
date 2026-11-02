@@ -53,3 +53,30 @@ export function jenis(jenis){
         </>
     )
 }
+
+export function getStatusColor (tanggal) {
+  if (!tanggal) return '';
+  
+  let pajakDate;
+  if (tanggal.includes('/')) {
+    const [d, m, y] = tanggal.split('/');
+    pajakDate = new Date(`${y}-${m}-${d}`);
+  } else {
+    pajakDate = new Date(tanggal);
+  }
+  
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  pajakDate.setHours(0,0,0,0);
+
+  const diffTime = pajakDate - today;
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 0) {
+    return 'mr-2 mb-1 status status-lg status-error'; // Sudah lewat
+  }
+  if (diffDays <= 30) {
+    return 'mr-2 mb-1 status status-lg status-warning'; // Mendekati 1 bulan
+  }
+  return 'mr-2 mb-1 status status-lg status-neutral'; // Aman
+};

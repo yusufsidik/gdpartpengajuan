@@ -1,6 +1,8 @@
 import { Link, router } from "@inertiajs/react"
 import { TrashIcon,PencilSquareIcon, PlusIcon, DocumentTextIcon } from "@heroicons/react/16/solid"
 import Swal from "sweetalert2";
+import { getStatusColor } from "../../utils/status";
+import { Copyable } from "../../utils/copyable";
 
 export default function Kendaraan({kendaraans}){
 
@@ -52,11 +54,27 @@ export default function Kendaraan({kendaraans}){
                                     <td className="font-bold">{kendaraan.nopol}</td>
                                     <td className="font-semibold">{kendaraan.pic}</td>
                                     <td>{kendaraan.tahun_pembuatan}</td>
-                                    <td>{kendaraan.no_rangka}</td>
-                                    <td>{kendaraan.no_mesin}</td>
-                                    <td className="font-bold">{kendaraan.tgl_beli_aki && new Date(kendaraan.tgl_beli_aki).toLocaleDateString()}</td>
-                                    <td className="font-bold">{kendaraan.pajak_1_tahun && new Date(kendaraan.pajak_1_tahun).toLocaleDateString()}</td>
-                                    <td className="font-bold">{kendaraan.pajak_5_tahun && new Date(kendaraan.pajak_5_tahun).toLocaleDateString()}</td>
+                                    <td>
+                                        <Copyable>
+                                            {kendaraan.no_rangka}
+                                        </Copyable>
+                                    </td>
+                                    <td>
+                                        <Copyable>
+                                            {kendaraan.no_mesin}
+                                        </Copyable>
+                                    </td>
+                                    <td className="font-bold">
+                                        {kendaraan.tgl_beli_aki && new Date(kendaraan.tgl_beli_aki).toLocaleDateString()}
+                                    </td>
+                                    <td className="font-bold">
+                                        <div aria-label="status" className={getStatusColor(kendaraan.pajak_1_tahun)}></div>
+                                        {kendaraan.pajak_1_tahun && new Date(kendaraan.pajak_1_tahun).toLocaleDateString()}
+                                    </td>
+                                    <td className="font-bold">
+                                        <div aria-label="status" className={getStatusColor(kendaraan.pajak_5_tahun)}></div>
+                                        {kendaraan.pajak_5_tahun && new Date(kendaraan.pajak_5_tahun).toLocaleDateString()}
+                                    </td>
                                     <td className="flex gap-4">
                                         <Link 
                                             href={`/kendaraans/${kendaraan.id}/pengajuans`} 

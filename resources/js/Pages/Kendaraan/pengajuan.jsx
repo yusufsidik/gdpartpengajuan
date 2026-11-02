@@ -3,7 +3,7 @@ import { status as statusFn, jenis as jenisFn } from "../../utils/status";
 import { rupiah } from "../../utils/rupiah";
 import { useState } from "react";
 import { ArrowLeftIcon } from "@heroicons/react/16/solid";
-
+import { Copyable } from "../../utils/copyable.jsx";
 
 export default function Pengajuan({kendaraan, pengajuans, filters}){
     const [search, setSearch] = useState(filters.search || '')
@@ -108,6 +108,7 @@ export default function Pengajuan({kendaraan, pengajuans, filters}){
                         <th>Nominal</th>
                         <th>Status</th>
                         <th>Tgl Diajukan</th>
+                        <th>Tgl ACC</th>
                         <th>Catatan</th>
                     </tr>
                 </thead>
@@ -115,12 +116,29 @@ export default function Pengajuan({kendaraan, pengajuans, filters}){
                     {pengajuans?.data.map((pengajuan, index) => {
                         return (
                             <tr key={index+1} className="hover:bg-base-300">
-                                <td>{pengajuan.nomor_pengajuan}</td>
-                                <td>{pengajuan.pengajuan}</td>
+                                <td>
+                                    <Copyable>
+                                        {pengajuan.nomor_pengajuan}
+                                    </Copyable>
+                                </td>
+                                <td>
+                                    <Copyable>
+                                        {pengajuan.pengajuan}
+                                    </Copyable>
+                                </td>
                                 <td>{jenisFn(pengajuan.jenis)}</td>
                                 <td>{rupiah(pengajuan.nominal)}</td>
                                 <td>{statusFn(pengajuan.status)}</td>
-                                <td>{new Date(pengajuan.tgl_diajukan).toLocaleDateString()}</td>
+                                <td>
+                                    <Copyable>
+                                        {new Date(pengajuan.tgl_diajukan).toLocaleDateString()}
+                                    </Copyable>
+                                </td>
+                                <td>
+                                    <Copyable>
+                                        {new Date(pengajuan.tgl_acc).toLocaleDateString()}
+                                    </Copyable>
+                                </td>
                                 <td>{pengajuan.catatan}</td>
                             </tr>
                         )

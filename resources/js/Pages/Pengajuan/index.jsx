@@ -4,6 +4,7 @@ import { PencilSquareIcon, CheckIcon, XMarkIcon, TrashIcon } from "@heroicons/re
 import Swal from "sweetalert2";
 import { status as statusFn, jenis as jenisFn } from "../../utils/status";
 import { rupiah } from "../../utils/rupiah";
+import { Copyable } from "../../utils/copyable";
 
 export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd}){
 
@@ -109,22 +110,22 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
         if(pengajuan.status === "WAITING"){
             return (
                 <>  
-                    <Link 
+                    <button 
                         className="btn btn-sm btn-success" 
                         onClick={() => updateStatus(pengajuan, "APPROVED")}
                         aria-label="ApprovedButton"
                         onKeyDown={(e) => e.preventDefault()}
                     >
                         {<CheckIcon className="size-4"/>}
-                    </Link>
-                    <Link 
+                    </button>
+                    <button 
                         className="btn btn-sm btn-error" 
                         onClick={() => updateStatus(pengajuan, "REJECTED")}
                         aria-label="RejectedButton"
                         onKeyDown={(e) => e.preventDefault()}
                     >
                         {<XMarkIcon className="size-4"/>}
-                    </Link>
+                    </button>
                 </>
             )
         }
@@ -234,14 +235,30 @@ export default function Pengajuan({pengajuans, filters, defaultStart, defaultEnd
                         {pengajuans?.data.map((pengajuan, index) => {
                             return (
                                 <tr key={index+1} className="hover:bg-base-300">
-                                    <td>{pengajuan.nomor_pengajuan}</td>
+                                    <td>
+                                        <Copyable>
+                                            {pengajuan.nomor_pengajuan}
+                                        </Copyable>
+                                    </td>
                                     <td className="font-bold">{pengajuan.nopol}</td>
-                                    <td>{pengajuan.pengajuan}</td>
+                                    <td>
+                                        <Copyable>
+                                            {pengajuan.pengajuan}
+                                        </Copyable>
+                                    </td>
                                     <td>{jenisFn(pengajuan.jenis)}</td>
                                     <td className="font-bold">{rupiah(pengajuan.nominal)}</td>
-                                    <td>{new Date(pengajuan.tgl_diajukan).toLocaleDateString()}</td>
+                                    <td>
+                                        <Copyable>
+                                            {new Date(pengajuan.tgl_diajukan).toLocaleDateString()}
+                                        </Copyable>
+                                    </td>
                                     <td>{statusFn(pengajuan.status)}</td>
-                                    <td>{pengajuan.tgl_acc ? new Date(pengajuan.tgl_acc).toLocaleDateString() : ''}</td>
+                                    <td>
+                                        <Copyable>
+                                            {pengajuan.tgl_acc ? new Date(pengajuan.tgl_acc).toLocaleDateString() : ''}
+                                        </Copyable>
+                                    </td>
                                     <td className="flex gap-2 justify-center">
                                         {buttonStatus(pengajuan)}
                                         <div className="divider divider-horizontal"></div>

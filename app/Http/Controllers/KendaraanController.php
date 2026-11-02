@@ -120,7 +120,7 @@ class KendaraanController extends Controller
         $kendaraan = Kendaraan::select('id', 'nopol', 'pic')->findOrFail($id);
 
         $pengajuans = Pengajuan::where('nopol', $kendaraan->nopol)
-            ->select('id', 'nomor_pengajuan','nopol','pengajuan','jenis','nominal','status','tgl_diajukan', 'catatan')
+            ->select('id', 'nomor_pengajuan','nopol','pengajuan','jenis','nominal','status','tgl_diajukan','tgl_acc', 'catatan')
             ->when($request->jenis, fn($q, $jenis) => $q->where('jenis', $jenis))
             ->when($request->status, fn($q, $status) => $q->where('status', $status))
             ->when($request->search, fn($q, $search) => $q->where('pengajuan', 'like', "%{$search}%"))

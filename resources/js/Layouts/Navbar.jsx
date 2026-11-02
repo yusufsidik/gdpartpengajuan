@@ -15,6 +15,10 @@ export default function Navbar(){
             name: 'Kendaraan',
             link: '/kendaraans'
         },
+        {
+            name: 'Apar',
+            link: '/apars'
+        },
     ]
 
 
