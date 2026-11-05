@@ -78,5 +78,5 @@ export function getStatusColor (tanggal) {
   if (diffDays <= 30) {
     return 'mr-2 mb-1 status status-lg status-warning'; // Mendekati 1 bulan
   }
-  return 'mr-2 mb-1 status status-lg status-neutral'; // Aman
+  return 'mr-2 mb-1 status status-lg status-success'; // Aman
 };

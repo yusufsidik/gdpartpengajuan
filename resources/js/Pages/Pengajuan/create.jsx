@@ -23,6 +23,7 @@ export default function CreatePengajuan({kendaraans}){
                             <fieldset className="fieldset w-full">
                                 <legend className="fieldset-legend">Nopol</legend>
                                 <select className="select w-full" name="nopol" id="nopol">
+                                    <option value="" selected>DEFAULT</option>
                                     {kendaraans.map((kendaraan) => {
                                         return (
                                             <option 

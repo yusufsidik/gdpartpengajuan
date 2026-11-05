@@ -1,10 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\{KendaraanController, PengajuanController, AparController};
+use App\Http\Controllers\{KendaraanController, PengajuanController, AparController, DashboardController};
 
-Route::inertia('/','Home');
-Route::inertia('/about', 'About');
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
 // route kendaraan
 Route::resource('kendaraans', KendaraanController::class);

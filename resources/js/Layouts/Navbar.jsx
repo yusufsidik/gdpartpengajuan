@@ -4,7 +4,7 @@ export default function Navbar(){
 
     const routes = [
         {
-            name: 'Home',
+            name: 'Dashboard',
             link: '/'
         },
         {
