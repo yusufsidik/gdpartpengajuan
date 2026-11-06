@@ -1,14 +1,18 @@
-import { Copyable } from "../../utils/copyable"
 import { router } from "@inertiajs/react"
+import { getStatusColor } from "../../utils/status"
 
 export default function Index(props){
     
     const {
-        jumlah_pengajuan_bulan_ini, 
-        jumlah_waiting_bulan_ini,
-        list_pengajuan_waiting
+        jumlah_pengajuan_bulan_ini = 0, 
+        jumlah_waiting_bulan_ini = 0,
+        list_pengajuan_waiting,
+        jumlah_kendaraan,
+        jumlah_per_jenis_kendaraan,
+        list_kendaraan_tenggang_pajak,
+        list_jumlah_tabung_apar,
+        total_tabung
     } = props
-    
 
     const handleClickSearchNomorPengajuan = (nomor_pengajuan) => {
         router.get('/pengajuans', {
@@ -21,88 +25,124 @@ export default function Index(props){
 
     return (
         <section className="py-6 px-4">
-            <h3 className="mb-2">Pengajuan</h3>
-            <div className="flex">
-                <div className="stats shadow">
-                    <div className="stat">
-                        <div className="stat-title">Pengajuan bulan ini</div>
-                        <div className="stat-value">{jumlah_pengajuan_bulan_ini}</div>
+            <div className="flex gap-6 w-full">
+                {/* stat pengajuan */}
+                <div>
+                    <h3 className="mb-2 font-semibold">Pengajuan</h3>
+                    <div className="stats shadow">
+                        <div className="stat">
+                            <div className="stat-title">Pengajuan bulan ini</div>
+                            <div className="stat-value">{jumlah_pengajuan_bulan_ini ?? 0}</div>
+                        </div>
+                        <div className="stat">
+                            <div className="stat-title">Waiting</div>
+                            <div className="stat-value">{jumlah_waiting_bulan_ini ?? 0}</div>
+                        </div>
+                        <div className="stat">
+                            <div className="stat-title">Pengajuan Waiting</div>
+                            {
+                                list_pengajuan_waiting.length > 0 ?
+                                list_pengajuan_waiting.map(pengajuan => {
+                                    return(
+                                        <button
+                                            key={pengajuan.nomor_pengajuan} 
+                                            className="stat-desc text-slate-700 font-bold hover:text-blue-700 cursor-pointer"
+                                            onClick={() => handleClickSearchNomorPengajuan(pengajuan.nomor_pengajuan)}
+                                        >
+                                            {pengajuan.nomor_pengajuan}
+                                        </button>
+                                    )
+                                }) : (<span className="text-sm">Tidak ada list waiting</span>)
+                            }
+                        </div>
                     </div>
-                    <div className="stat">
-                        <div className="stat-title">Waiting</div>
-                        <div className="stat-value">{jumlah_waiting_bulan_ini.jumlah}</div>
-                    </div>
-                    <div className="stat">
-                        <div className="stat-title">Pengajuan Waiting</div>
-                        {list_pengajuan_waiting.map(pengajuan => {
-                            return(
-                                <button
-                                    key={pengajuan.nomor_pengajuan} 
-                                    className="stat-desc text-slate-700 font-bold hover:text-blue-700 cursor-pointer"
-                                    onClick={() => handleClickSearchNomorPengajuan(pengajuan.nomor_pengajuan)}
-                                >
-                                    {pengajuan.nomor_pengajuan}
-                                </button>
+                </div>
+
+                {/* stat kendaraan */}
+                <div>
+                    <h3 className="mb-2 font-semibold">Kendaraan</h3>
+                    <div className="stats shadow">
+                        <div className="stat">
+                            <div className="stat-title">Total Kendaraan</div>
+                            <div className="stat-value text-primary">{jumlah_kendaraan}</div>
+                        </div>
+                        {jumlah_per_jenis_kendaraan.map((kendaraan, index) => {
+                            return (
+                                <div className="stat" key={index}>
+                                    <div className="stat-title">{kendaraan.jenis_model}</div>
+                                    <div className="stat-value text-primary">{kendaraan.jumlah}</div>
+                                </div>
                             )
                         })}
                     </div>
+                    <div className="mt-4 rounded-lg shadow-lg p-4">
+                        <h3 className="font-semibold text-sm">Tenggang pajak pembayaran kendaraan</h3>
+                        <div className="overflow-x-auto mt-4">
+                            <table className="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Nopol</th>
+                                        <th>Pajak 1 tahun</th>
+                                        <th>Pajak 5 tahun</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    { list_kendaraan_tenggang_pajak.length > 0 ? list_kendaraan_tenggang_pajak.map((kendaraan, index) => {
+                                        return (
+                                            <tr className="hover:bg-base-300" key={index}>
+                                                <td>{kendaraan.nopol}</td>
+                                                <td>
+                                                    <div aria-label="status" className={getStatusColor(kendaraan.pajak_1_tahun)}></div>
+                                                    {new Date(kendaraan.pajak_1_tahun).toLocaleDateString()}
+                                                </td>
+                                                <td>
+                                                    <div aria-label="status" className={getStatusColor(kendaraan.pajak_5_tahun)}></div>
+                                                    {new Date(kendaraan.pajak_5_tahun).toLocaleDateString()}
+                                                </td>
+                                            </tr>
+                                        )
+                                    }) : (
+                                        <tr className="hover:bg-base-300">
+                                            <td colSpan={3} className="text-center">Tidak ada kendaraan</td>
+                                        </tr>
+                                    )}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-                {/* <div className="stats shadow">
-                    <div className="stat">
-                        <div className="stat-figure text-primary">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            className="inline-block h-8 w-8 stroke-current"
-                        >
-                            <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                            ></path>
-                        </svg>
-                        </div>
-                        <div className="stat-title">Total Likes</div>
-                        <div className="stat-value text-primary">25.6K</div>
-                        <div className="stat-desc">21% more than last month</div>
-                    </div>
-
-                    <div className="stat">
-                        <div className="stat-figure text-secondary">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            className="inline-block h-8 w-8 stroke-current"
-                        >
-                            <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M13 10V3L4 14h7v7l9-11h-7z"
-                            ></path>
-                        </svg>
-                        </div>
-                        <div className="stat-title">Page Views</div>
-                        <div className="stat-value text-secondary">2.6M</div>
-                        <div className="stat-desc">21% more than last month</div>
-                    </div>
-
-                    <div className="stat">
-                        <div className="stat-figure text-secondary">
-                            <div className="avatar avatar-online">
-                                <div className="w-16 rounded-full">
-                                <img alt="Tailwind CSS stat example component" src="https://img.daisyui.com/images/profile/demo/anakeen@192.webp" />
-                                </div>
+                <div>
+                    <h3 className="mb-2 font-semibold">Apar</h3>
+                    <div className="stats shadow-lg">
+                        <div className="stat">
+                            <div className="text-md font-bold">Jumlah Tabung : {total_tabung}</div>
+                            <div className="overflow-x-auto mt-4">
+                                <table className="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Kapasitas</th>
+                                            <th>Jumlah</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        { list_jumlah_tabung_apar.length > 0 ? list_jumlah_tabung_apar.map((apar, index) => {
+                                            return (
+                                                <tr className="hover:bg-base-300" key={index}>
+                                                    <td>{apar.kapasitas} Kg</td>
+                                                    <td>{apar.jumlah_tabung}</td>
+                                                </tr>
+                                            )
+                                        }) : (
+                                            <tr className="hover:bg-base-300">
+                                                <td colSpan={3} className="text-center">Tidak ada Apar</td>
+                                            </tr>
+                                        )}
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
-                        <div className="stat-value">86%</div>
-                        <div className="stat-title">Tasks done</div>
-                        <div className="stat-desc text-secondary">31 tasks remaining</div>
                     </div>
-                </div> */}
+                </div>
             </div>
 
         </section>
